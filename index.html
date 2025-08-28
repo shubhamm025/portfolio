@@ -484,6 +484,7 @@
         }
 
         .contact-info h3 {
+            font-size: 1.5rem;
             font-weight: 600;
             margin-bottom: 2rem;
             color: var(--text-primary);
@@ -584,6 +585,21 @@
             padding: 2rem 0;
         }
 
+        /* Mobile Navigation */
+        .nav-links.mobile-active {
+            display: flex;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            flex-direction: column;
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow-lg);
+            border-top: 1px solid var(--border-color);
+            gap: 1rem;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .nav-links {
@@ -602,7 +618,9 @@
             }
 
             .hero-text h1 {
-                font-size: 2.5rem;
+                font-size: 2rem;
+                line-height: 1.1;
+                word-break: break-word;
             }
 
             .container {
@@ -621,6 +639,20 @@
             .skills-grid {
                 grid-template-columns: 1fr;
                 gap: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-text h1 {
+                font-size: 1.75rem;
+            }
+            
+            .nav-container {
+                padding: 0 1rem;
+            }
+            
+            .container {
+                padding: 0 0.75rem;
             }
         }
 
@@ -1010,7 +1042,7 @@
                 <div class="contact-info">
                     <h3>Let's discuss your QA automation needs</h3>
                     <p>I'm always interested in new opportunities and challenging projects. Whether you need a comprehensive automation strategy or specific technical expertise, I'd love to hear from you.</p>
-                
+                    
                     <div class="contact-item">
                         <i class="fas fa-envelope"></i>
                         <div>
@@ -1174,12 +1206,42 @@
             });
         });
 
-        // Mobile menu functionality (basic implementation)
+        // Mobile menu functionality
         const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
         const navLinks = document.querySelector('.nav-links');
 
         mobileMenuBtn.addEventListener('click', function() {
-            navLinks.classList.toggle('active');
+            navLinks.classList.toggle('mobile-active');
+            
+            // Change hamburger icon to X when menu is open
+            const icon = this.querySelector('i');
+            if (navLinks.classList.contains('mobile-active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function() {
+                navLinks.classList.remove('mobile-active');
+                const menuIcon = mobileMenuBtn.querySelector('i');
+                menuIcon.classList.remove('fa-times');
+                menuIcon.classList.add('fa-bars');
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!mobileMenuBtn.contains(e.target) && !navLinks.contains(e.target)) {
+                navLinks.classList.remove('mobile-active');
+                const menuIcon = mobileMenuBtn.querySelector('i');
+                menuIcon.classList.remove('fa-times');
+                menuIcon.classList.add('fa-bars');
+            }
         });
 
         // Typing effect for hero subtitle (optional enhancement)
